@@ -6,11 +6,13 @@ import DashboardMenu from "../../Pages/Shared/DashboardMenu/DashboardMenu";
 function MainLayout() {
   return (
     <div className="flex w-full">
-      <DashboardMenu></DashboardMenu>
+      <div className="w-[10%] h-screen">
+        <DashboardMenu></DashboardMenu>
+      </div>
       <div>
-      <Header></Header>
-      <Outlet></Outlet>
-      <Footer></Footer>
+        <Header></Header>
+        <Outlet></Outlet>
+        <Footer></Footer>
       </div>
     </div>
   );
