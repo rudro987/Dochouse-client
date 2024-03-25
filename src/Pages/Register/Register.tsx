@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "aws-amplify/auth";
 
 type FormData = {
   email: string;
@@ -9,7 +10,8 @@ type FormData = {
   confirmPassword: string;
 };
 
-function Login() {
+const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,10 +20,14 @@ function Login() {
   } = useForm<FormData>();
 
   const password = watch("password");
-  const onSubmit = async (data: { email: string; name: string; image: string; password: string; confirmPassword: string; }) => {
-    const {email, name, image, password, confirmPassword} = data;
-    console.log(email, name, image, password, confirmPassword);
-  }
+  const onSubmit = async (data: FormData) => {
+    const { isSignUpComplete, userId, nextStep } = await signUp({
+      username: data.email,
+      password: data.password,
+    });
+    nextStep.signUpStep(navigate('/'));
+  };
+
   // firstName and lastName will have correct type
 
   return (
@@ -185,6 +191,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
-export default Login;
+export default Register;
